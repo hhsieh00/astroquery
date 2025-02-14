@@ -183,6 +183,21 @@ star HIP 12 with just the ra, dec and w1mpro columns would be:
     --------- ----------- ------
     0.0407905 -35.9602605  4.837
 
+Async queries
+--------------
+
+For bigger queries it is recommended using the ``async_job`` keyword option. When used,
+the query is send in asynchronous mode.
+
+.. doctest-remote-data::
+
+    >>> from astroquery.ipac.irsa import Irsa
+    >>> table = Irsa.query_region("HIP 12", catalog="allwise_p3as_psd", spatial="Cone", async_job=True)
+    >>> print(table)
+        designation         ra        dec     sigra  ...         y                   z           spt_ind      htm20    
+                           deg        deg     arcsec ...                                                               
+    ------------------- --------- ----------- ------ ... ------------------ ------------------- --------- -------------
+    J000009.78-355736.9 0.0407905 -35.9602605 0.0454 ... 0.0005762523295116 -0.5872239888098030 100102010 8873706189183
 
 Direct TAP query to the IRSA server
 -----------------------------------
@@ -234,13 +249,15 @@ Enhanced Imaging products in the centre of the COSMOS field as an `~astropy.tabl
 
 To list available collections for SIA queries, the
 `~astroquery.ipac.irsa.IrsaClass.list_collections` method is provided, and
-will return a `~astropy.table.Table`:
+will return a `~astropy.table.Table`. You can use the ``servicetype``
+argument to filter for image or spectral collections using ``'SIA'`` or
+``'SSA'`` respectively:
 
 .. doctest-remote-data::
 
    >>> from astroquery.ipac.irsa import Irsa
-   >>> Irsa.list_collections()
-   <Table length=124>
+   >>> Irsa.list_collections(servicetype='SIA')
+   <Table length=104>
          collection
            object
    ---------------------
